@@ -7,7 +7,7 @@ function ClickCard(props) {
       <div className="img-container">
         <img alt={props.name} src={props.image} />
       </div>
-      <span onClick={()=> props.calculateScore(props.id)} className="character"></span>
+      <span onClick={()=> props.clickCard(props.id)} className="character"></span>
     </div>
   );
 }
