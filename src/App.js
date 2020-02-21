@@ -10,44 +10,43 @@ import characters from './characters.json';
 class App extends Component {
   state = {
     characters: characters,
-    selectedCharacters: [],
+    unselectedCharacters: characters,
     highScore: 0,
     score: 0,
     displayMessage: "Click an image to start!"
   };
 
-  shuffleCards = arr => arr
-    .map(a => [Math.random(), a])
-    .sort((a, b) => a[0] - b[0])
-    .map(a => a[1]);
-
-
-  handleClick = event => {
-    event.preventDefault();
-
-    const cardId = event.target.id;
-
-    this.clickCard(cardId);
+  shuffleCards = array => {
+    let i = array.length - 1;
+    for (; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
   }
 
-
   clickCard = id => {
-    if (this.state.selectedCharacters.includes(id)) {
+    const selectCharacter = this.state.unselectedCharacters.find(item => item.id === id);
+
+    if (selectCharacter === undefined) {
       this.setState({
-        displayMessage:"",
-        highScore: (this.state.score > this.state.highScore) ? this.state.score: this.state.highScore,
-        score:0,
+        displayMessage: "WRONG! YOU MUST START OVER!",
+        highScore: (this.state.score > this.state.highScore) ? this.state.score : this.state.highScore,
+        score: 0,
         characters: characters,
-        selectedCharacters:[]
+        unselectedCharacters: characters
       })
     }
     else {
-      this.state.selectedCharacters.push(id);
+      const newCharacters = this.state.unselectedCharacters.filter(item => item.id !== id);
+
       this.setState({
-        displayMessage:"",
-        score: this.state.score +1,
+        displayMessage: "CORRECT! Try another.",
+        score: this.state.score + 1,
         characters: characters,
-        selectedCharacters: this.state.selectedCharacters.push(id)
+        unselectedCharacters: newCharacters
       })
     }
     this.shuffleCards(characters);

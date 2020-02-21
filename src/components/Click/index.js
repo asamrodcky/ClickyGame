@@ -1,15 +1,12 @@
 import React from "react";
 import "./style.css";
 
-function ClickCard(props) {
-  return (
+const ClickCard = props => (
     <div className="card">
       <div className="img-container">
-        <img alt={props.name} src={props.image} />
+            <img className="character" alt={props.name} src={props.image} onClick = {() => props.clickCard(props.id)}/>
       </div>
-      <span onClick={()=> props.clickCard(props.id)} className="character"></span>
     </div>
-  );
-}
+)
 
 export default ClickCard;
